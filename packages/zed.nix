@@ -2,7 +2,16 @@
   programs.zed-editor = {
     enable = true;
 
-    extensions = ["nix" "rust" "toml" "kdl" "html" "catppuccin" "catppuccin-icons"];
+    extensions = [
+      "nix"
+      "rust"
+      "qml"
+      "toml"
+      "kdl"
+      "html"
+      "catppuccin"
+      "catppuccin-icons"
+    ];
 
     userSettings = {
       disable_ai = true;
@@ -15,7 +24,7 @@
       buffer_font_family = "FiraCode Nerd Font";
       ui_font_size = 15.0;
       buffer_font_size = 15;
-      icon_theme = "Catppuccin Macchiato";
+      icon_theme = "Catppuccin Mocha";
       theme = {
         mode = "dark";
         light = "Catppuccin Latte";

@@ -1,21 +1,17 @@
-{...}: {
-  #  systemd.user.services.vicinae = {
-  #    Unit = {
-  #      Description = "Vicinae server";
-  #      After = [ "niri.service" ];
-  #      PartOf = [ "niri.service" ];
-  #    };
-  #
-  #    Service = {
-  #      ExecStart = "${pkgs.vicinae}/bin/vicinae server";
-  #      Restart = "on-failure";
-  #      Environment = ["USE_LAYER_SHELL=1"];
-  #    };
-  #
-  #    Install = {
-  #      WantedBy = ["niri.service"];
-  #    };
-  #  };
+{pkgs, ...}: {
+  systemd.user.services.vicinae = {
+    Unit = {
+      Description = "Vicinae server";
+      After = ["niri.service"];
+      PartOf = ["niri.service"];
+    };
+    Service = {
+      ExecStart = "${pkgs.vicinae}/bin/vicinae server";
+      Restart = "on-failure";
+      Environment = ["USE_LAYER_SHELL=1"];
+    };
+    Install = {WantedBy = ["niri.service"];};
+  };
 
   programs.vicinae = {
     enable = true;
@@ -42,7 +38,7 @@
         };
       };
       launcher_window = {
-        opacity = 0.75;
+        opacity = 0.80;
       };
     };
     #extensions = with inputs.vicinae-extensions.packages.${pkgs.stdenv.hostPlatform.system}; [

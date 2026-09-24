@@ -4,6 +4,7 @@
 
   imports = [
     ./packages/niri.nix
+    ./packages/cursor.nix
     ./packages/easyeffects.nix
     ./packages/vicinae.nix
     ./packages/zed.nix
@@ -15,18 +16,29 @@
     firefox
     easyeffects
     nautilus
+    mpv
+    krita
 
     # Dektop Components
-    gnome-keyring
+    # gnome-keyring
+    xdg-desktop-portal-gtk
     xdg-desktop-portal-gnome
     xwayland-satellite
     gtk4
+    glib
+
+    # Adwaita
     libadwaita
+    adwaita-fonts
+    adw-gtk3
+    adwaita-qt
+    adwaita-qt6
 
     # nirimod
     niri
-    waybar
     awww
+    # mako
+    quickshell
 
     # Ui Customisation
     capitaine-cursors
@@ -58,31 +70,37 @@
     };
   };
 
-  services.gnome.gnome-keyring.enable = true;
-  programs.waybar.enable = true;
-
-  # Cursor Theme
-  home.pointerCursor = {
-    gtk.enable = true;
-    x11.enable = true;
-    name = "capitaine-cursors-white";
-    package = pkgs.capitaine-cursors;
-    size = 32;
-  };
-  home.sessionVariables = {
-    XCURSOR_THEME = "capitaine-cursors-white";
-    XCURSOR_SIZE = "32";
-  };
+  # Apply Adwaita as base theme
   gtk = {
     enable = true;
-    cursorTheme = {
-      name = "capitaine-cursors-white";
-      package = pkgs.capitaine-cursors;
-      size = 32;
+    theme = {
+      name = "adw-gtk3";
+      package = pkgs.adw-gtk3;
+    };
+    gtk4.theme = {
+      name = "Adwaita";
+      package = pkgs.libadwaita;
     };
   };
+  qt = {
+    enable = true;
+    # platformTheme.name = "adwaita";
+    # style = {
+    #   name = "adwaita";
+    #   package = pkgs.adwaita-qt;
+    # };
+  };
 
-  fonts.fontconfig.enable = true;
+  fonts.fontconfig = {
+    enable = true;
+
+    defaultFonts = {
+      sansSerif = ["Adwaita Sans" "Noto Sans"];
+      serif = ["Noto Serif"];
+      monospace = ["FiraCode Nerd Font Mono" "Noto Sans Mono"];
+      emoji = ["Noto Color Emoji"];
+    };
+  };
 
   # Home Manager is pretty good at managing dotfiles.
   # The primary way to manage plain files is through 'home.file'.
@@ -116,8 +134,11 @@
   #  /etc/profiles/per-user/nika/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    # EDITOR = "emacs";
+    # QT_WAYLAND_DECORATION = "adwaita";
+    # QT_QPA_PLATFORMTHEME = "gtk3-dark";
   };
+
+  xdg.enable = true;
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

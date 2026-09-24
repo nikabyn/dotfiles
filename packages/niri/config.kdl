@@ -9,6 +9,7 @@
 input {
     keyboard {
         xkb {
+            layout "de"
             // You can set rules, model, layout, variant and options.
             // For more information, see xkeyboard-config(7).
 
@@ -155,7 +156,7 @@ layout {
     // You can change how the focus ring looks.
     focus-ring {
         // Uncomment this line to disable the focus ring.
-        off
+        on
 
         // How many logical pixels the ring extends out from the windows.
         width 2
@@ -267,8 +268,8 @@ layout {
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
 
-spawn-at-startup "vicinae" "server"
-spawn-at-startup "easyeffects" "--service-mode" "--hide-window" "-l framework"
+spawn-sh-at-startup "awww-daemon -n wallpaper & awww img ~/Pictures/F37-night.jpg -n wallpaper"
+spawn-sh-at-startup "awww-daemon -n backdrop & awww img ~/Pictures/F37-night-backdrop.jpg -n backdrop"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
@@ -304,13 +305,15 @@ animations {
 // Find more information on the wiki:
 // https://niri-wm.github.io/niri/Configuration:-Window-Rules
 
-// Work around WezTerm's initial configure bug
-// by setting an empty default-column-width.
+// Enable rounded corners for all windows.
 window-rule {
-    // This regular expression is intentionally made as specific as possible,
-    // since this is the default config, and we want no false positives.
-    // You can get away with just app-id="wezterm" if you want.
-    match app-id=r#"^org\.wezfurlong\.wezterm$"#
+    geometry-corner-radius 12
+    clip-to-geometry true
+}
+
+// Work around WezTerm's initial configure bug by setting an empty default-column-width.
+window-rule {
+    match app-id="wezterm"
     default-column-width {}
 }
 
@@ -334,11 +337,48 @@ window-rule {
     // block-out-from "screencast"
 }
 
-// Example: enable rounded corners for all windows.
-// (This example rule is commented out with a "/-" in front.)
-window-rule {
-    geometry-corner-radius 12
-    clip-to-geometry true
+// Launcher
+layer-rule {
+    match namespace="vicinae"
+    background-effect {
+        xray false
+        blur true
+        noise 0.1
+    }
+}
+
+// awww Wallpaper rules
+layer-rule {
+    match namespace="awww.*backdrop"
+    place-within-backdrop true
+}
+layer-rule {
+    match namespace="awww.*wallpaper"
+}
+
+// Global blur config
+blur {
+    passes 4
+    offset 3
+    noise 0.05
+    saturation 1.0
+}
+
+overview {
+    zoom 0.7
+
+    workspace-shadow {
+        softness 50
+        spread 5
+        offset x=0 y=10
+        color "#00000050"
+    }
+}
+
+gestures {
+    hot-corners {
+        off
+    }
 }
 
 binds {
@@ -356,12 +396,17 @@ binds {
     // shows a list of important hotkeys.
     Mod+Shift+Slash { show-hotkey-overlay; }
 
-    // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+T hotkey-overlay-title="Open a Terminal: ghostty" { spawn "ghostty"; }
     Super+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
-    Mod+Space hotkey-overlay-title="Open Launcher: vicinae" { spawn "vicinae" "toggle"; }
 
-    // vicinae cmd launch clipboard:history
+    // Launcher
+    Mod+Space hotkey-overlay-title="Open vicinae"            { spawn "vicinae" "vicinae://toggle"; }
+    Mod+V     hotkey-overlay-title="Open vicinae: clipboard" { spawn "vicinae" "vicinae://launch/clipboard/history"; }
+
+    // Screenshots
+    Print { screenshot; }
+    Ctrl+Print { screenshot-screen; }
+    Alt+Print { screenshot-window; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
@@ -555,14 +600,9 @@ binds {
     Mod+Ctrl+Shift+R { switch-preset-window-height; }
     Mod+Ctrl+R { reset-window-height; }
 
-    Mod+F { maximize-column; }
-    Mod+Shift+F { fullscreen-window; }
-
-    // While maximize-column leaves gaps and borders around the window,
-    // maximize-window-to-edges doesn't: the window expands to the edges of the screen.
-    // This bind corresponds to normal window maximizing,
-    // e.g. by double-clicking on the titlebar.
-    Mod+M { maximize-window-to-edges; }
+    Mod+M { maximize-column; }
+    Mod+Shift+M { maximize-window-to-edges; }
+    F11 { fullscreen-window; }
 
     // Expand the focused column to space not taken up by other fully visible columns.
     // Makes the column "fill the rest of the space".
@@ -589,8 +629,8 @@ binds {
     Mod+Shift+Equal { set-window-height "+10%"; }
 
     // Move the focused window between the floating and the tiling layout.
-    Mod+V       { toggle-window-floating; }
-    Mod+Shift+V { switch-focus-between-floating-and-tiling; }
+    Mod+F       { toggle-window-floating; }
+    Mod+Shift+F { switch-focus-between-floating-and-tiling; }
 
     // Toggle tabbed column display mode.
     // Windows in this column will appear as vertical tabs,
@@ -604,10 +644,6 @@ binds {
     // since it will switch twice upon pressing the hotkey (once by xkb, once by niri).
     // Mod+Space       { switch-layout "next"; }
     // Mod+Shift+Space { switch-layout "prev"; }
-
-    Print { screenshot; }
-    Ctrl+Print { screenshot-screen; }
-    Alt+Print { screenshot-window; }
 
     // Applications such as remote-desktop clients and software KVM switches may
     // request that niri stops processing the keyboard shortcuts defined here
