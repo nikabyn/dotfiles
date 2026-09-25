@@ -268,8 +268,11 @@ layout {
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
 
-spawn-sh-at-startup "awww-daemon -n wallpaper & awww img ~/Pictures/F37-night.jpg -n wallpaper"
-spawn-sh-at-startup "awww-daemon -n backdrop & awww img ~/Pictures/F37-night-backdrop.jpg -n backdrop"
+spawn-sh-at-startup "
+    awww-daemon -n wallpaper &
+    awww-daemon -n backdrop &
+    ~/.config/home-manager/packages/niri/script-wallpaper-update.sh
+"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
@@ -407,6 +410,9 @@ binds {
     Print { screenshot; }
     Ctrl+Print { screenshot-screen; }
     Alt+Print { screenshot-window; }
+
+    // Theme toggle
+    Mod+odiaeresis { spawn-sh "~/.config/home-manager/packages/niri/script-theme-toggle.sh"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.

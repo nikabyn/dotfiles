@@ -12,19 +12,19 @@
 
   home.packages = with pkgs; [
     # Applications
-    ghostty
     firefox
     easyeffects
     nautilus
     mpv
     krita
+    loupe
 
     # Dektop Components
     # gnome-keyring
     xdg-desktop-portal-gtk
     xdg-desktop-portal-gnome
+    xdg-utils
     xwayland-satellite
-    gtk4
     glib
 
     # Adwaita
@@ -39,6 +39,7 @@
     awww
     # mako
     quickshell
+    swayosd
 
     # Ui Customisation
     capitaine-cursors
@@ -70,16 +71,58 @@
     };
   };
 
+  xdg.portal = {
+    enable = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-gnome
+    ];
+    config.niri.default = ["gnome" "gtk"];
+  };
+
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "text/html" = "firefox.desktop";
+      "x-scheme-handler/http" = "firefox.desktop";
+      "x-scheme-handler/https" = "firefox.desktop";
+      "x-scheme-handler/about" = "firefox.desktop";
+      "x-scheme-handler/unknown" = "firefox.desktop";
+      "image/apng" = "org.gnome.Loupe.desktop";
+      "image/bmp" = "org.gnome.Loupe.desktop";
+      "image/gif" = "org.gnome.Loupe.desktop";
+      "image/jp2" = "org.gnome.Loupe.desktop";
+      "image/jpeg" = "org.gnome.Loupe.desktop";
+      "image/png" = "org.gnome.Loupe.desktop";
+      "image/qoi" = "org.gnome.Loupe.desktop";
+      "image/tiff" = "org.gnome.Loupe.desktop";
+      "image/vnd.microsoft.icon" = "org.gnome.Loupe.desktop";
+      "image/webp" = "org.gnome.Loupe.desktop";
+      "image/x-dds" = "org.gnome.Loupe.desktop";
+      "image/x-exr" = "org.gnome.Loupe.desktop";
+      "image/x-portable-anymap" = "org.gnome.Loupe.desktop";
+      "image/x-portable-bitmap" = "org.gnome.Loupe.desktop";
+      "image/x-portable-graymap" = "org.gnome.Loupe.desktop";
+      "image/x-portable-pixmap" = "org.gnome.Loupe.desktop";
+      "image/x-qoi" = "org.gnome.Loupe.desktop";
+      "image/x-tga" = "org.gnome.Loupe.desktop";
+      "image/x-win-bitmap" = "org.gnome.Loupe.desktop";
+      "image/x-xbitmap" = "org.gnome.Loupe.desktop";
+      "image/x-xpixmap" = "org.gnome.Loupe.desktop";
+      "image/svg+xml" = "org.gnome.Loupe.desktop";
+      "image/svg+xml-compressed" = "org.gnome.Loupe.desktop";
+      "image/avif" = "org.gnome.Loupe.desktop";
+      "image/heic" = "org.gnome.Loupe.desktop";
+      "image/jxl" = "org.gnome.Loupe.desktop";
+    };
+  };
+
   # Apply Adwaita as base theme
   gtk = {
     enable = true;
     theme = {
       name = "adw-gtk3";
       package = pkgs.adw-gtk3;
-    };
-    gtk4.theme = {
-      name = "Adwaita";
-      package = pkgs.libadwaita;
     };
   };
   qt = {
@@ -91,13 +134,20 @@
     # };
   };
 
+  programs.ghostty = {
+    enable = true;
+    settings = {
+      theme = "dark:Catppuccin Mocha,light:Catppuccin Latte";
+    };
+  };
+
   fonts.fontconfig = {
     enable = true;
 
     defaultFonts = {
       sansSerif = ["Adwaita Sans" "Noto Sans"];
       serif = ["Noto Serif"];
-      monospace = ["FiraCode Nerd Font Mono" "Noto Sans Mono"];
+      monospace = ["FiraCode Nerd Font Mono" "Adwaita Mono" "Noto Sans Mono"];
       emoji = ["Noto Color Emoji"];
     };
   };
