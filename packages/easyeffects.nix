@@ -3,6 +3,7 @@
   pkgs,
   ...
 }: {
+  home.packages = [pkgs.easyeffects];
   xdg.dataFile."easyeffects/output/framework.json".source = config.lib.file.mkOutOfStoreSymlink ./easyeffects/framework.json;
 
   systemd.user.services.easyeffects = {

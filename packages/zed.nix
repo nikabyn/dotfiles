@@ -19,6 +19,7 @@
         diagnostics = true;
         metrics = false;
       };
+      restore_on_startup = "last_workspace";
 
       # UI Layout
       title_bar = {
@@ -26,9 +27,9 @@
         button_layout = "";
         show_user_menu = false;
       };
-      project_panel = {
-        dock = "left";
-      };
+      project_panel.dock = "left";
+      git_panel.dock = "left";
+      search.button = false;
       toolbar = {
         agent_review = false;
         code_actions = false;
@@ -37,9 +38,7 @@
         thumb = "always";
         show = "always";
       };
-      sticky_scroll = {
-        enabled = true;
-      };
+      sticky_scroll.enabled = true;
 
       # UI Theme
       icon_theme = "Catppuccin Mocha";
@@ -50,8 +49,6 @@
       };
 
       # Font
-      ui_font_size = 15.0;
-      buffer_font_size = 15;
       ui_font_family = "Adwaita Sans";
       buffer_font_family = "FiraCode Nerd Font";
 

@@ -1,26 +1,15 @@
-{pkgs, ...}: {
-  systemd.user.services.vicinae = {
-    Unit = {
-      Description = "Vicinae server";
-      After = ["niri.service"];
-      PartOf = ["niri.service"];
-    };
-    Service = {
-      ExecStart = "${pkgs.vicinae}/bin/vicinae server";
-      Restart = "on-failure";
-      Environment = ["USE_LAYER_SHELL=1"];
-    };
-    Install = {WantedBy = ["niri.service"];};
-  };
-
+{...}: {
   programs.vicinae = {
     enable = true;
+    systemd.enable = true;
     settings = {
+      search_files_in_root = true;
+
       close_on_focus_loss = true;
       consider_preedit = true;
       pop_to_root_on_close = true;
+
       favicon_service = "twenty";
-      search_files_in_root = true;
       font = {
         normal = {
           size = 12;
@@ -30,15 +19,17 @@
       theme = {
         light = {
           name = "libadwaita-light";
-          icon_theme = "default";
+          icon_theme = "Adwaita";
         };
         dark = {
           name = "libadwaita-dark";
-          icon_theme = "default";
+          icon_theme = "Adwaita";
         };
       };
       launcher_window = {
+        layer_shell.enabled = true;
         opacity = 0.80;
+        compact_mode.enabled = true;
       };
     };
     #extensions = with inputs.vicinae-extensions.packages.${pkgs.stdenv.hostPlatform.system}; [

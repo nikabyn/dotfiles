@@ -1,0 +1,47 @@
+window#osd {
+    --osd-bg-color: black;
+    --osd-fg-color: white;
+
+    border: none;
+    border-radius: 12px;
+    background: alpha(var(--osd-bg-color), 0.8);
+}
+
+window#osd image,
+window#osd label {
+    color: var(--osd-fg-color);
+}
+
+window#osd progressbar:disabled,
+window#osd image:disabled {
+    opacity: 0.5;
+}
+
+window#osd progressbar,
+window#osd segmentedprogress {
+    min-height: 6px;
+    border-radius: 999px;
+    background: transparent;
+    border: none;
+}
+window#osd trough,
+window#osd segment {
+    min-height: inherit;
+    border-radius: inherit;
+    border: none;
+    background: alpha(var(--osd-fg-color), 0.5);
+}
+window#osd progress,
+window#osd segment.active {
+    min-height: inherit;
+    border-radius: inherit;
+    border: none;
+    background: var(--osd-fg-color);
+}
+
+window#osd segment {
+    margin-left: 8px;
+    &:first-child {
+        margin-left: 0;
+    }
+}
