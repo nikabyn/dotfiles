@@ -3,8 +3,8 @@
   home.homeDirectory = "/home/nika";
 
   imports = [
-    ./packages/desktop.nix
-    ./packages/apps.nix
+    ./desktop.nix
+    ./apps.nix
   ];
 
   home.packages = with pkgs; [
