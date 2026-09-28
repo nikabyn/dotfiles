@@ -3,52 +3,11 @@
   home.homeDirectory = "/home/nika";
 
   imports = [
-    ./packages/niri.nix
-    ./packages/cursor.nix
-    ./packages/swayosd.nix
-    ./packages/vicinae.nix
-    ./packages/zed.nix
-    ./packages/easyeffects.nix
+    ./packages/desktop.nix
+    ./packages/apps.nix
   ];
 
   home.packages = with pkgs; [
-    # Applications
-    nautilus
-    mission-center
-    firefox
-    papers
-    loupe
-    showtime
-    signal-desktop
-
-    # Dektop Components
-    # gnome-keyring
-    xdg-desktop-portal-gtk
-    xdg-desktop-portal-gnome
-    xdg-utils
-    xwayland-satellite
-    glib
-    libinput
-
-    # Adwaita
-    libadwaita
-    adwaita-fonts
-    adw-gtk3
-    adwaita-icon-theme
-
-    # nirimod
-    niri
-    awww
-    swayosd
-    playerctl
-    brightnessctl
-
-    # Ui Customisation
-    capitaine-cursors
-    nerd-fonts.fira-code
-    noto-fonts
-    noto-fonts-cjk-sans
-
     # Development
     nixd # Nix LSP
     alejandra # Nix formatter
@@ -72,115 +31,6 @@
       user.name = "Nika Sommer";
       user.email = "nika.sommer@proton.me";
       init.defaultBranch = "main";
-    };
-  };
-
-  xdg.portal = {
-    enable = true;
-    extraPortals = [
-      pkgs.xdg-desktop-portal-gtk
-      pkgs.xdg-desktop-portal-gnome
-    ];
-
-    config.niri = {
-      default = ["gnome" "gtk"];
-      "org.freedesktop.impl.portal.Settings" = ["gtk"];
-    };
-  };
-
-  xdg.mimeApps = {
-    enable = true;
-    defaultApplications = {
-      "text/html" = "firefox.desktop";
-      "x-scheme-handler/http" = "firefox.desktop";
-      "x-scheme-handler/https" = "firefox.desktop";
-      "x-scheme-handler/about" = "firefox.desktop";
-      "x-scheme-handler/unknown" = "firefox.desktop";
-
-      # loupe
-      "image/apng" = "org.gnome.Loupe.desktop";
-      "image/bmp" = "org.gnome.Loupe.desktop";
-      "image/gif" = "org.gnome.Loupe.desktop";
-      "image/jp2" = "org.gnome.Loupe.desktop";
-      "image/jpeg" = "org.gnome.Loupe.desktop";
-      "image/png" = "org.gnome.Loupe.desktop";
-      "image/qoi" = "org.gnome.Loupe.desktop";
-      # "image/tiff" = "org.gnome.Loupe.desktop";
-      "image/vnd.microsoft.icon" = "org.gnome.Loupe.desktop";
-      "image/webp" = "org.gnome.Loupe.desktop";
-      "image/x-dds" = "org.gnome.Loupe.desktop";
-      "image/x-exr" = "org.gnome.Loupe.desktop";
-      "image/x-portable-anymap" = "org.gnome.Loupe.desktop";
-      "image/x-portable-bitmap" = "org.gnome.Loupe.desktop";
-      "image/x-portable-graymap" = "org.gnome.Loupe.desktop";
-      "image/x-portable-pixmap" = "org.gnome.Loupe.desktop";
-      "image/x-qoi" = "org.gnome.Loupe.desktop";
-      "image/x-tga" = "org.gnome.Loupe.desktop";
-      "image/x-win-bitmap" = "org.gnome.Loupe.desktop";
-      "image/x-xbitmap" = "org.gnome.Loupe.desktop";
-      "image/x-xpixmap" = "org.gnome.Loupe.desktop";
-      "image/svg+xml" = "org.gnome.Loupe.desktop";
-      "image/svg+xml-compressed" = "org.gnome.Loupe.desktop";
-      "image/avif" = "org.gnome.Loupe.desktop";
-      "image/heic" = "org.gnome.Loupe.desktop";
-      "image/jxl" = "org.gnome.Loupe.desktop";
-
-      # papers
-      "application/vnd.comicbook-rar" = "papers";
-      "application/vnd.comicbook+zip" = "papers";
-      "application/x-cb7" = "papers";
-      "application/x-cbr" = "papers";
-      "application/x-cbt" = "papers";
-      "application/x-cbz" = "papers";
-      "application/x-ext-cb7" = "papers";
-      "application/x-ext-cbr" = "papers";
-      "application/x-ext-cbt" = "papers";
-      "application/x-ext-cbz" = "papers";
-      "application/x-ext-djv" = "papers";
-      "application/x-ext-djvu" = "papers";
-      "image/vnd.djvu" = "papers";
-      "image/vnd.djvu+multipage" = "papers";
-      "application/pdf" = "papers";
-      "application/x-bzpdf" = "papers";
-      "application/x-ext-pdf" = "papers";
-      "application/x-gzpdf" = "papers";
-      "application/x-xzpdf" = "papers";
-      "application/illustrator" = "papers";
-      "image/tiff" = "papers";
-    };
-  };
-
-  # Apply Adwaita as base theme
-  gtk = {
-    enable = true;
-    theme = {
-      name = "adw-gtk3";
-      package = pkgs.adw-gtk3;
-    };
-    iconTheme = {
-      name = "Adwaita";
-      package = pkgs.adwaita-icon-theme;
-    };
-  };
-  qt = {
-    enable = true;
-  };
-
-  programs.ghostty = {
-    enable = true;
-    settings = {
-      theme = "dark:Catppuccin Mocha,light:Catppuccin Latte";
-    };
-  };
-
-  fonts.fontconfig = {
-    enable = true;
-
-    defaultFonts = {
-      sansSerif = ["Adwaita Sans" "Noto Sans"];
-      serif = ["Noto Serif"];
-      monospace = ["FiraCode Nerd Font Mono" "Adwaita Mono" "Noto Sans Mono"];
-      emoji = ["Noto Color Emoji"];
     };
   };
 
@@ -216,11 +66,7 @@
   #  /etc/profiles/per-user/nika/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    # TODO Use https://github.com/kossLAN/qtengine as the theme and generate the proper color theme
-    QT_QPA_PLATFORMTHEME = "xdgdesktopportal";
   };
-
-  xdg.enable = true;
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

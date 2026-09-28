@@ -2,7 +2,7 @@
 
 export AWWW_TRANSITION_BEZIER=0.0,0.0,1.0,1.0
 export AWWW_TRANSITION="fade"
-export AWWW_TRANSITION_DURATION=0.100
+export AWWW_TRANSITION_DURATION=0.0
 
 color_scheme=$(dconf read /org/gnome/desktop/interface/color-scheme)
 if [ "$color_scheme" = "'prefer-dark'" ]

@@ -271,7 +271,7 @@ layout {
 spawn-sh-at-startup "
     awww-daemon -n wallpaper &
     awww-daemon -n backdrop &
-    ~/.config/home-manager/packages/niri/script-wallpaper-update.sh
+    ~/.config/home-manager/packages/desktop/niri/script-wallpaper-init.sh
 "
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
@@ -418,7 +418,7 @@ binds {
     Alt+Print { screenshot-window; }
 
     // Theme toggle
-    Mod+odiaeresis { spawn-sh "~/.config/home-manager/packages/niri/script-theme-toggle.sh"; }
+    Mod+odiaeresis { spawn-sh "~/.config/home-manager/packages/desktop/niri/script-theme-toggle.sh"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
