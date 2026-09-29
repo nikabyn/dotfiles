@@ -113,6 +113,8 @@ layout {
     // Set gaps around windows in logical pixels.
     gaps 12
 
+    background-color "#00000000"
+
     // When to center a column when changing focus, options are:
     // - "never", default behavior, focusing an off-screen column will keep at the left
     //   or right edge of the screen.
@@ -268,14 +270,11 @@ layout {
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
 
-spawn-sh-at-startup "
-    awww-daemon -n wallpaper &
-    awww-daemon -n backdrop &
-    ~/.config/home-manager/desktop/niri/script-wallpaper-init.sh
-"
-
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
+spawn-at-startup "awww-daemon" "-n" "wallpaper"
+spawn-at-startup "awww-daemon" "-n" "backdrop"
+spawn-at-startup "~/.config/home-manager/desktop/niri/script-wallpaper-init.sh"
 
 hotkey-overlay {
     skip-at-startup
@@ -375,6 +374,7 @@ blur {
 
 overview {
     zoom 0.7
+    backdrop-color "#00000000"
 
     workspace-shadow {
         softness 50

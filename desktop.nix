@@ -8,6 +8,7 @@
   cursorSize = 32;
 in {
   imports = [
+    ./desktop/awww.nix
     ./desktop/swayosd.nix
     ./desktop/vicinae.nix
     ./desktop/easyeffects.nix
@@ -28,6 +29,7 @@ in {
     adwaita-icon-theme
     libadwaita
     adw-gtk3
+    qlementine
 
     # Cursor Theme
     cursorPackage
@@ -40,7 +42,6 @@ in {
 
     # nirimod
     niri
-    awww
     swayosd
   ];
 
@@ -80,6 +81,10 @@ in {
   };
   qt = {
     enable = true;
+    # style = {
+    #   name = "qlementine";
+    #   package = pkgs.qlementine;
+    # };
   };
   home.sessionVariables = {
     # TODO Use https://github.com/kossLAN/qtengine as the theme and generate the proper color theme

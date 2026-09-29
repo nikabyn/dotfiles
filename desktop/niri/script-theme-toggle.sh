@@ -1,8 +1,7 @@
 #!/bin/sh
 
-export AWWW_TRANSITION_BEZIER=0.0,0.5,0.5,1.0
-export AWWW_TRANSITION="fade"
-export AWWW_TRANSITION_DURATION=0.500
+export AWWW_TRANSITION="none"
+export AWWW_TRANSITION_DURATION=0
 
 toggle() {
     color_scheme=$(dconf read /org/gnome/desktop/interface/color-scheme)
