@@ -8,10 +8,32 @@
   cursorSize = 32;
 in {
   imports = [
-    ./desktop/awww.nix
     ./desktop/swayosd.nix
     ./desktop/vicinae.nix
     ./desktop/easyeffects.nix
+  ];
+
+  nixpkgs.overlays = [
+    (final: prev: {
+      niri = prev.niri.overrideAttrs (old: let
+        src = final.fetchFromGitHub {
+          owner = "niri-wm";
+          repo = "niri";
+          rev = "fcbc971cf49a987b1e8d5ff1d64da6b1f61a1787";
+          hash = "sha256-PM8tinYBMFRZfRkOiRZPbgBdDK0tMlsqpeupa2b8CcU=";
+        };
+      in {
+        version = "26.10-testing";
+        inherit src;
+        doCheck = false;
+        doInstallCheck = false;
+
+        cargoDeps = final.rustPlatform.fetchCargoVendor {
+          inherit src;
+          hash = "sha256-4VQqTrVB6p8M3U7xqF+K6vSKrQcqhW+OnZyAp6j/fGA=";
+        };
+      });
+    })
   ];
 
   home.packages = with pkgs; [

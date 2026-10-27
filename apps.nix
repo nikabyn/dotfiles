@@ -8,6 +8,8 @@
     video-trimmer
     signal-desktop
     firefox
+    errands
+    flatpak
   ];
 
   programs.ghostty = {

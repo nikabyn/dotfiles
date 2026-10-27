@@ -28,9 +28,18 @@
   programs.git = {
     enable = true;
     settings = {
-      user.name = "Nika Sommer";
-      user.email = "nika.sommer@proton.me";
       init.defaultBranch = "main";
+      user = {
+        name = "Nika Sommer";
+        email = "nika.sommer@proton.me";
+      };
+      sendemail = {
+        smtpServer = "smtp.mailbox.org";
+        smtpServerPort = 465;
+        smtpEncryption = "ssl";
+        smtpUser = "nika.sommer@mailbox.org";
+      };
+      credential.helper = "store";
     };
   };
 

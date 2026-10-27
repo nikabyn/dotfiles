@@ -1,19 +1,12 @@
 #!/bin/sh
 
-export AWWW_TRANSITION="none"
-export AWWW_TRANSITION_DURATION=0
-
 toggle() {
     color_scheme=$(dconf read /org/gnome/desktop/interface/color-scheme)
     if [ "$color_scheme" = "'prefer-dark'" ]
     then
-        dconf write /org/gnome/desktop/interface/color-scheme "\"prefer-light\"" &
-        awww img ~/Pictures/F37-day.jpg -n wallpaper &
-        awww img ~/Pictures/F37-day-backdrop.jpg -n backdrop
+        dconf write /org/gnome/desktop/interface/color-scheme "\"prefer-light\""
     else
-        dconf write /org/gnome/desktop/interface/color-scheme "\"prefer-dark\"" &
-        awww img ~/Pictures/F37-night.jpg -n wallpaper &
-        awww img ~/Pictures/F37-night-backdrop.jpg -n backdrop
+        dconf write /org/gnome/desktop/interface/color-scheme "\"prefer-dark\""
     fi
 }
 

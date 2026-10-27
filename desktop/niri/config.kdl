@@ -121,7 +121,7 @@ layout {
     // - "always", the focused column will always be centered.
     // - "on-overflow", focusing a column will center it if it doesn't fit
     //   together with the previously focused column.
-    center-focused-column "on-overflow"
+    center-focused-column "never"
 
     // You can customize the widths that "switch-preset-column-width" (Mod+R) toggles between.
     preset-column-widths {
@@ -217,8 +217,7 @@ layout {
 
     // You can enable drop shadows for windows.
     shadow {
-        // Uncomment the next line to enable shadows.
-        // on
+        on
 
         // By default, the shadow draws only around its window, and not behind it.
         // Uncomment this setting to make the shadow draw behind its window.
@@ -239,17 +238,10 @@ layout {
         // You can change how shadows look. The values below are in logical
         // pixels and match the CSS box-shadow properties.
 
-        // Softness controls the shadow blur radius.
-        softness 30
-
-        // Spread expands the shadow.
-        spread 5
-
-        // Offset moves the shadow relative to the window.
-        offset x=0 y=5
-
-        // You can also change the shadow color and opacity.
-        color "#0007"
+        softness 10
+        spread 2
+        offset x=0 y=2
+        color "#0000003c"
     }
 
     // Struts shrink the area occupied by windows, similarly to layer-shell panels.
@@ -260,7 +252,7 @@ layout {
     struts {
         // left 64
         // right 64
-        // top 64
+        top -9
         // bottom 64
     }
 }
@@ -271,10 +263,7 @@ layout {
 // See the binds section below for more spawn examples.
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
-// spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
-spawn-at-startup "awww-daemon" "-n" "wallpaper"
-spawn-at-startup "awww-daemon" "-n" "backdrop"
-spawn-at-startup "~/.config/home-manager/desktop/niri/script-wallpaper-init.sh"
+spawn-sh-at-startup "niri msg action do-screen-transition --delay-ms 150 && ~/dev/gnesque/result/bin/gnesque-shell"
 
 hotkey-overlay {
     skip-at-startup
@@ -301,6 +290,10 @@ animations {
 
     // Slow down all animations by this factor. Values below 1 speed them up instead.
     // slowdown 3.0
+
+    overview-open-close {
+        spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+    }
 }
 
 // Window rules let you adjust behavior for individual windows.
@@ -345,25 +338,6 @@ window-rule {
     // block-out-from "screencast"
 }
 
-// Launcher
-layer-rule {
-    match namespace="vicinae"
-    background-effect {
-        xray false
-        blur true
-        noise 0.1
-    }
-}
-
-// awww Wallpaper rules
-layer-rule {
-    match namespace="awww.*backdrop"
-    place-within-backdrop true
-}
-layer-rule {
-    match namespace="awww.*wallpaper"
-}
-
 // Global blur config
 blur {
     passes 4
@@ -372,9 +346,48 @@ blur {
     saturation 1.0
 }
 
+// Launcher
+layer-rule {
+    match namespace="vicinae"
+    background-effect {
+        xray false
+        blur true
+    }
+}
+
+layer-rule {
+    match namespace="gnesque-topbar"
+
+    // geometry-corner-radius 12
+    // background-effect {
+    //     xray false
+    //     blur true
+    // }
+}
+
+layer-rule {
+    match namespace="gnesque-backdrop"
+    place-within-backdrop true
+}
+
+layer-rule {
+    match namespace="gnesque-wallpaper"
+}
+
+
+layer-rule {
+    match namespace="swayosd"
+
+    geometry-corner-radius 12
+    background-effect {
+        xray false
+        blur true
+    }
+}
+
 overview {
     zoom 0.7
-    backdrop-color "#00000000"
+    backdrop-color "#000000ff"
 
     workspace-shadow {
         softness 50
@@ -448,12 +461,19 @@ binds {
     XF86MonBrightnessDown allow-when-locked=true { spawn "swayosd-client" "--brightness" "lower"; }
 
     // Caps Lock
-    // Caps_Lock allow-when-locked=true { spawn "swayosd-client" "--caps-lock"; }
+    Caps_Lock allow-when-locked=true {
+        release { spawn "swayosd-client" "--caps-lock"; }
+    }
+    Num_Lock allow-when-locked=true {
+        release { spawn "swayosd-client" "--num-lock"; }
+    }
 
     // Open/close the Overview: a zoomed-out view of workspaces and windows.
     // You can also move the mouse into the top-left hot corner,
     // or do a four-finger swipe up on a touchpad.
-    Mod+O repeat=false { toggle-overview; }
+    Mod {
+        release { toggle-overview; }
+    }
 
     Mod+Q repeat=false { close-window; }
 
@@ -637,11 +657,11 @@ binds {
     // Pixel sizes use logical, or scaled, pixels. I.e. on an output with scale 2.0,
     // set-column-width "100" will make the column occupy 200 physical screen pixels.
     Mod+Minus { set-column-width "-10%"; }
-    Mod+Equal { set-column-width "+10%"; }
+    Mod+Plus { set-column-width "+10%"; }
 
     // Finer height adjustments when in column with other windows.
     Mod+Shift+Minus { set-window-height "-10%"; }
-    Mod+Shift+Equal { set-window-height "+10%"; }
+    Mod+Shift+Plus { set-window-height "+10%"; }
 
     // Move the focused window between the floating and the tiling layout.
     Mod+F       { toggle-window-floating; }
